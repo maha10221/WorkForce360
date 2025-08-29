@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f4f4;
+        }
+        h2 { color: #333; }
+        form {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 140px;
+            font-weight: bold;
+        }
+        input, select { margin-bottom: 10px; padding: 5px; width: 210px; }
+        button {
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover { background: #0056b3; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th { background: #007BFF; color: white; }
+        .btn-all {
+            margin-bottom: 15px;
+            background: #28a745;
+        }
+        .btn-all:hover { background: #218838; }
+
+        /* Top-right corner links */
+        .top-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .top-links a {
+            margin-left: 15px;
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+        .top-links a:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top-right corner links -->
+<div class="top-links">
+    <a href="https://www.youtube.com/@qualifiertalks" target="_blank">YouTube</a>
+    <a href="https://github.com/Maha10221" target="_blank">GitHub</a>
+    <a href="https://maheshbabugarnepudi.vercel.app/" target="_blank">Portfolio</a>
+</div>
+
+<h2>Add Employee</h2>
+<form th:action="@{/WorkForce360/add}" th:object="${employeeDTO}" method="post">
+    <label>ID:</label><input type="text" th:field="*{id}" required><br>
+    <label>Name:</label><input type="text" th:field="*{name}" required><br>
+    <label>Age:</label><input type="number" th:field="*{age}" required><br>
+    <label>Gender:</label><input type="text" th:field="*{gender}" required><br>
+    <label>Year of Join:</label><input type="text" th:field="*{yearOfJoin}" required><br>
+    <label>Blood Group:</label><input type="text" th:field="*{bloodGroup}" required><br>
+
+    <label>Department:</label>
+    <select th:field="*{deptId}" required>
+        <option value="">--Select Department--</option>
+        <option th:each="d : ${departments}" th:value="${d.id}" th:text="${d.name}"></option>
+    </select><br>
+
+    <button type="submit">Add Employee</button>
+</form>
+
+<h2>Employee List</h2>
+<button class="btn-all" onclick="window.location.href='/WorkForce360'">Show All Employees</button>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Year of Join</th>
+        <th>Gender</th>
+        <th>Blood Group</th>
+        <th>Department</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="emp : ${employees}">
+        <td th:text="${emp.id}"></td>
+        <td th:text="${emp.name}"></td>
+        <td th:text="${emp.age}"></td>
+        <td th:text="${emp.yearOfJoin}"></td>
+        <td th:text="${emp.gender}"></td>
+        <td th:text="${emp.bloodGroup}"></td>
+        <td th:text="${emp.dept != null ? emp.dept.name : 'N/A'}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
